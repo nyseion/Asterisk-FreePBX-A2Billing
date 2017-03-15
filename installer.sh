@@ -4,15 +4,20 @@
 ##############################
 
 # Allow login as root via SSH
-sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-service sshd restart
+#sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+#service sshd restart
 
 #Update Your System
 apt-get update && apt-get upgrade -y 
 
 #Install Required Dependencies
-apt-get install -y build-essential linux-headers-`uname -r` openssh-server apache2 mysql-server
-apt-get install -y mysql-client bison flex php5 php5-curl php5-cli php5-mysql php-pear php5-gd curl sox
+apt-get install -y software-properties-common
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+add-apt-repository 'deb http://mirror.jmu.edu/pub/mariadb/repo/5.5/ubuntu trusty main'
+apt-get update
+
+apt-get install -y build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server
+apt-get install -y mariadb-client bison flex php5 php5-curl php5-cli php5-mysql php-pear php5-gd curl sox
 apt-get install -y libncurses5-dev libssl-dev libmysqlclient-dev mpg123 libxml2-dev libnewt-dev sqlite3
 apt-get install -y libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev gcc make
 apt-get install -y libasound2-dev libogg-dev libvorbis-dev libcurl4-openssl-dev libical-dev libneon27-dev libsrtp0-dev
@@ -24,37 +29,37 @@ pear install Console_Getopt
 #Installing Dependencies for Google Voice
 ###
 #Install iksemel
-cd /usr/src
-wget https://iksemel.googlecode.com/files/iksemel-1.4.tar.gz
-tar xf iksemel-1.4.tar.gz
-cd iksemel-*
-./configure
-make
-make install
-ldconfig
+#cd /usr/src
+#wget https://iksemel.googlecode.com/files/iksemel-1.4.tar.gz
+#tar xf iksemel-1.4.tar.gz
+#cd iksemel-*
+#./configure
+#make
+#make install
+#ldconfig
 
 #Install and Configure Asterisk
 cd /usr/src
 wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
-wget http://downloads.asterisk.org/pub/telephony/libpri/libpri-1.4-current.tar.gz
+wget http://downloads.asterisk.org/pub/telephony/libpri/libpri-current.tar.gz
 wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz
 wget -O jansson.tar.gz https://github.com/akheron/jansson/archive/v2.7.tar.gz
 wget http://www.pjsip.org/release/2.4/pjproject-2.4.tar.bz2
 
 #Compile and install DAHDI (Needed for PSTN hardware, for example, a T1 or E1 card, or a USB device)
-cd /usr/src
-tar xvfz dahdi-linux-complete-current.tar.gz
-rm -f dahdi-linux-complete-current.tar.gz
-cd dahdi-linux-complete-*
-make all
-make install
-make config
-cd /usr/src
-tar xvfz libpri-1.4-current.tar.gz
-rm -f libpri-1.4-current.tar.gz
-cd libpri-*
-make
-make install
+#cd /usr/src
+#tar xvfz dahdi-linux-complete-current.tar.gz
+#rm -f dahdi-linux-complete-current.tar.gz
+#cd dahdi-linux-complete-*
+#make all
+#make install
+#make config
+#cd /usr/src
+#tar xvfz libpri-1.4-current.tar.gz
+#rm -f libpri-1.4-current.tar.gz
+#cd libpri-*
+#make
+#make install
 
 #Compile and install pjproject
 cd /usr/src
